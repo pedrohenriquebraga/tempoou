@@ -9,6 +9,7 @@ export const Container = styled.SafeAreaView`
     padding: 10px;
     elevation: 5;
     justify-content: flex-end;
+    border-radius: 12px;
 `;
 
 export const HeaderTitle = styled.Text`

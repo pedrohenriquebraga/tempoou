@@ -57,3 +57,10 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# Others
+.vscode
+.env
+config.json
+firebase.json
+tempoou-firebase.json

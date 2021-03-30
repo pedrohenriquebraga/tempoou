@@ -1,9 +1,7 @@
-import storage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import geo from "react-native-geocoder";
-import location from "react-native-location";
+import { useNavigation } from "@react-navigation/core";
+import storage from "@react-native-async-storage/async-storage";
 import Feather from "react-native-vector-icons/Feather";
 import background from "../../images/background.jpg";
 import {
@@ -12,13 +10,14 @@ import {
     ButtonText,
     Container,
     FormContainer,
-    GetLocationButton,
     Input,
     InputContainer,
     Label,
     SearchContainer,
     Title,
 } from "./styles";
+
+import { BannerAd, BannerAdSize, TestIds } from "@react-native-firebase/admob";
 
 const Home: React.FC = () => {
     const navigation = useNavigation();
@@ -30,52 +29,6 @@ const Home: React.FC = () => {
             return setCity(result);
         });
     }, []);
-
-    async function handleGetCurrentlyCity() {
-        const status = await location.checkPermission({
-            ios: "whenInUse",
-            android: {
-                detail: "fine",
-            },
-        });
-
-        if (!status) {
-            const permission = await location.requestPermission({
-                ios: "whenInUse",
-                android: {
-                    detail: "fine",
-                    rationale: {
-                        title: "Preciso de sua Localização",
-                        message:
-                            "Preciso de sua localização para obter sua cidade",
-                        buttonPositive: "Aceitar",
-                        buttonNegative: "Recusar",
-                    },
-                },
-            });
-
-            if (!permission) {
-                return Alert.alert(
-                    "Preciso de permissão!",
-                    "Preciso da sua localização para obter a cidade!"
-                );
-            }
-        }
-
-        const { latitude, longitude } = await location.getLatestLocation({
-            timeout: 1000,
-        });
-
-        if (!(latitude && longitude)) {
-            return Alert.alert(
-                "Não foi possível obter a cidade!",
-                "Tente novamente em alguns segundos!"
-            );
-        }
-
-        const { locality } = await geo.geocodePosition({ latitude, longitude });
-        return setCity(locality);
-    }
 
     async function handleForecastNavigate() {
         if (!city)
@@ -90,6 +43,15 @@ const Home: React.FC = () => {
 
     return (
         <Container>
+            <BannerAd
+                unitId={TestIds.BANNER}
+                size={BannerAdSize.FULL_BANNER}
+                onAdClosed={() => {}}
+                onAdOpened={() => {}}
+                onAdFailedToLoad={() => {}}
+                onAdLoaded={() => {}}
+                onAdLeftApplication={() => {}}
+            />
             <Background source={background} resizeMode="stretch">
                 <SearchContainer>
                     <Title>
@@ -111,12 +73,6 @@ const Home: React.FC = () => {
                                     Pesquisar
                                 </ButtonText>
                             </Button>
-                            <GetLocationButton onPress={handleGetCurrentlyCity}>
-                                <ButtonText color="#5773ff">
-                                    <Feather name="map-pin" size={20} /> Obter
-                                    cidade atual
-                                </ButtonText>
-                            </GetLocationButton>
                         </InputContainer>
                     </FormContainer>
                 </SearchContainer>

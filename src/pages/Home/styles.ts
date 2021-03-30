@@ -14,12 +14,13 @@ export const Container = styled.View`
 
 export const SearchContainer = styled.View`
     background: #fff;
-    width: ${Dimensions.get("screen").width}px;
+    width: ${Dimensions.get("screen").width - 20}px;
     border-radius: 20px;
-    padding: 8px;
+    padding: 12px;
 `;
 
 export const Background = styled.ImageBackground`
+    width: 100%;
     flex: 1;
     align-items: center;
     justify-content: center;
@@ -62,10 +63,6 @@ export const Button = styled(RectButton)`
     color: #fff;
     margin-top: 10px;
     border-radius: 12px;
-`;
-
-export const GetLocationButton = styled(Button)`
-    background: transparent;
 `;
 
 export const FormContainer = styled.View`

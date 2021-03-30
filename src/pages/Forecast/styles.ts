@@ -1,7 +1,8 @@
 import { Dimensions } from "react-native";
+import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
 
-export const Container = styled.ScrollView`
+export const Container = styled(Animated.ScrollView)`
     width: ${Dimensions.get("screen").width}px;
     height: ${Dimensions.get("screen").height}px;
     flex: 1;
@@ -15,7 +16,7 @@ export const CityTitle = styled.Text`
     color: #fff;
 `;
 
-export const CurrentlyForecastContainer = styled.View`
+export const CurrentlyForecastContainer = styled(Animated.View)`
     position: relative;
     width: 98%;
     height: 300px;

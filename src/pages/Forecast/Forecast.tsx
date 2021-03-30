@@ -1,12 +1,22 @@
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { format, getHours, isBefore, parseISO } from "date-fns";
 import React, { useEffect, useState, memo } from "react";
-import { Alert, ScrollView, View } from "react-native";
+import { Alert, Dimensions, ScrollView, View } from "react-native";
+import {
+    useSharedValue,
+    useAnimatedStyle,
+    withTiming,
+    Easing,
+    interpolate,
+    Extrapolate,
+} from "react-native-reanimated";
+
 import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Loading from "../../components/Loading/Loading";
 import config from "../../config.json";
 import api from "../../services/api";
+import { IForecast } from "../../ts/interfaces/IForecast";
 import {
     CityTitle,
     Container,
@@ -37,84 +47,54 @@ import {
     NextDaysTitle,
 } from "./styles";
 
-interface IForecast {
-    location: {
-        name: string;
-        region: string;
-        country: string;
-        lat: number;
-        lon: number;
-        tz_id: string;
-        localtime_epoch: number;
-        localtime: string;
-    };
-
-    current: {
-        last_updated_epoch: number;
-        last_updated: string;
-        temp_c: number;
-        temp_f: number;
-        is_day: number;
-        condition: {
-            text: string;
-            icon: string;
-            code: number;
-        };
-        wind_mph: number;
-        wind_kph: number;
-        wind_degree: number;
-        wind_dir: string;
-        pressure_mb: number;
-        pressure_in: number;
-        precip_mm: number;
-        precip_in: number;
-        humidity: number;
-        cloud: number;
-        feelslike_c: number;
-        feelslike_f: number;
-        vis_km: number;
-        vis_miles: number;
-        uv: number;
-        gust_mph: number;
-        gust_kph: number;
-        air_quality: {
-            co: number;
-            no2: number;
-            o3: number;
-            so2: number;
-            pm2_5: number;
-            pm10: number;
-            "us-epa-index": number;
-            "gb-defra-index": number;
-        };
-    };
-
-    forecast: {
-        forecastday: any[];
-    };
-}
-
 const Forecast: React.FC = () => {
     const route = useRoute();
     const navigation = useNavigation();
     const [forecast, setForecast] = useState<IForecast>();
     const { city } = route.params as { city: string };
 
+    const containerPosition = useSharedValue(Dimensions.get("screen").width);
+    const currentlyForecastPosition = useSharedValue(
+        -Dimensions.get("screen").height / 2
+    );
+
+    const containerAnimation = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateX: containerPosition.value }],
+        };
+    });
+
+    const currentlyAnimation = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateY: currentlyForecastPosition.value }],
+        };
+    });
+
     useEffect(() => {
         api.get(
             `/forecast.json?key=${config.apikey}&q=${city}&days=3&aqi=yes&alerts=no&lang=pt`
         )
             .then((response) => {
-                console.log("Busquei!");
-
-                return setForecast(response.data);
+                setForecast(response.data);
+                containerPosition.value = withTiming(
+                    0,
+                    {
+                        duration: 800,
+                        easing: Easing.elastic(1),
+                    },
+                    () => {
+                        currentlyForecastPosition.value = withTiming(0, {
+                            duration: 350,
+                            easing: Easing.linear,
+                        });
+                    }
+                );
             })
             .catch((err) => {
                 Alert.alert(
                     "Cidade não encontrada!",
                     `A cidade "${city}" não foi encontrada!`
                 );
-                console.error(err);
                 return navigation.navigate("Home");
             });
     }, []);
@@ -141,8 +121,8 @@ const Forecast: React.FC = () => {
         return <Loading message={`Previsão do Tempo de ${city}...`} />;
 
     return (
-        <Container>
-            <CurrentlyForecastContainer>
+        <Container style={containerAnimation}>
+            <CurrentlyForecastContainer style={currentlyAnimation}>
                 <CityTitle>
                     <Feather name="map-pin" size={20} /> {city}
                 </CityTitle>
@@ -195,7 +175,7 @@ const Forecast: React.FC = () => {
                 <HourByHourTitle>Previsão para hoje</HourByHourTitle>
                 <ScrollView horizontal>
                     {forecast.forecast.forecastday[0].hour.map(
-                        (fore, index) => {
+                        (fore, index: number) => {
                             if (
                                 isBefore(parseISO(fore.time), new Date()) &&
                                 getHours(parseISO(fore.time)) !==

@@ -2,8 +2,8 @@
   package="com.tempoou_native">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESSCOARSELOCATION" />
-    <uses-permission android:name="android.permission.ACCESSFINELOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
       android:name=".MainApplication"
