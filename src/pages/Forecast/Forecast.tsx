@@ -1,10 +1,4 @@
-import {
-    AdEventType,
-    BannerAd,
-    BannerAdSize,
-    InterstitialAd,
-    TestIds,
-} from "@react-native-firebase/admob";
+import { BannerAd, BannerAdSize, TestIds } from "@react-native-firebase/admob";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { format, getHours, isBefore, parseISO } from "date-fns";
 import React, { memo, useEffect, useState } from "react";
@@ -19,13 +13,11 @@ import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Title } from "../../components/Custom/Custom";
 import Loading from "../../components/Loading/Loading";
+import NextDay from "../../components/NextDay/NextDaysCard";
 import config from "../../config.json";
 import api from "../../services/api";
 import { IForecast } from "../../ts/interfaces/IForecast";
 import { transformTime } from "../../utils/time";
-
-import NextDay from "../../components/NextDay/NextDaysCard";
-
 import {
     Container,
     CurrentlyForecastContainer,
