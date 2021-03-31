@@ -1,3 +1,10 @@
+import {
+    AdEventType,
+    BannerAd,
+    BannerAdSize,
+    InterstitialAd,
+    TestIds,
+} from "@react-native-firebase/admob";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { format, getHours, isBefore, parseISO } from "date-fns";
 import React, { memo, useEffect, useState } from "react";
@@ -10,13 +17,16 @@ import {
 } from "react-native-reanimated";
 import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { Title } from "../../components/Custom/Custom";
 import Loading from "../../components/Loading/Loading";
 import config from "../../config.json";
 import api from "../../services/api";
 import { IForecast } from "../../ts/interfaces/IForecast";
 import { transformTime } from "../../utils/time";
+
+import NextDay from "../../components/NextDay/NextDaysCard";
+
 import {
-    CityTitle,
     Container,
     CurrentlyForecastContainer,
     CurrentlyForecastIcon,
@@ -35,13 +45,8 @@ import {
     HourByHourTitle,
     InfoCardTitle,
     InfoCardValue,
-    NextDaysCard,
-    NextDaysDay,
     NextDaysForecastContainer,
     NextDaysForecastScroll,
-    NextDaysIcon,
-    NextDaysMinMaxContainer,
-    NextDaysMinMaxTemp,
     NextDaysTitle,
 } from "./styles";
 
@@ -50,7 +55,6 @@ const Forecast: React.FC = () => {
     const navigation = useNavigation();
     const [forecast, setForecast] = useState<IForecast>();
     const { city } = route.params as { city: string };
-
     const containerPosition = useSharedValue(Dimensions.get("screen").width);
     const currentlyForecastPosition = useSharedValue(
         -Dimensions.get("screen").height / 2
@@ -97,15 +101,27 @@ const Forecast: React.FC = () => {
             });
     }, []);
 
-    if (!forecast)
-        return <Loading message={`Previsão do Tempo de ${city}...`} />;
+    if (!forecast) {
+        return (
+            <Loading
+                message={`Previsão do Tempo de ${city}...`}
+                showInterstitialAd
+            />
+        );
+    }
 
     return (
         <Container style={containerAnimation}>
             <CurrentlyForecastContainer style={currentlyAnimation}>
-                <CityTitle>
+                <Title
+                    align="center"
+                    fontFamily="Raleway-Bold"
+                    fontSize="23px"
+                    margin="20px 0"
+                    color="#fff"
+                >
                     <Feather name="map-pin" size={20} /> {city}
-                </CityTitle>
+                </Title>
                 <CurrentlyForecastLeftContent>
                     <CurrentlyForecastIcon
                         source={{
@@ -127,6 +143,15 @@ const Forecast: React.FC = () => {
                     </ForecastFeelsLikeTemperature>
                 </CurrentlyForecastRightContent>
             </CurrentlyForecastContainer>
+            <BannerAd
+                unitId={TestIds.BANNER}
+                size={BannerAdSize.ADAPTIVE_BANNER}
+                onAdClosed={() => {}}
+                onAdOpened={() => {}}
+                onAdFailedToLoad={() => {}}
+                onAdLoaded={() => {}}
+                onAdLeftApplication={() => {}}
+            />
             <ExtraInfos>
                 <View>
                     <InfoCardTitle>
@@ -212,32 +237,9 @@ const Forecast: React.FC = () => {
                 <NextDaysForecastScroll>
                     {forecast.forecast.forecastday
                         .slice(1)
-                        .map((fore, index) => {
-                            return (
-                                <NextDaysCard key={index}>
-                                    <NextDaysDay>
-                                        {format(parseISO(fore.date), "dd/MM")}
-                                    </NextDaysDay>
-                                    <NextDaysMinMaxContainer>
-                                        <NextDaysMinMaxTemp>
-                                            <Feather
-                                                name="thermometer"
-                                                size={16}
-                                            />{" "}
-                                            {Math.round(fore.day.mintemp_c)}°C/
-                                            {Math.round(fore.day.maxtemp_c)}°C
-                                        </NextDaysMinMaxTemp>
-                                    </NextDaysMinMaxContainer>
-                                    <NextDaysIcon
-                                        source={{
-                                            uri:
-                                                "https:" +
-                                                fore.day.condition.icon,
-                                        }}
-                                    />
-                                </NextDaysCard>
-                            );
-                        })}
+                        .map((fore, index) => (
+                            <NextDay fore={fore} key={index} />
+                        ))}
                 </NextDaysForecastScroll>
             </NextDaysForecastContainer>
         </Container>

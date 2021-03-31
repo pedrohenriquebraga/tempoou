@@ -8,14 +8,6 @@ export const Container = styled(Animated.ScrollView)`
     flex: 1;
 `;
 
-export const CityTitle = styled.Text`
-    text-align: center;
-    font-family: Raleway-Bold;
-    font-size: 23px;
-    margin: 20px 0;
-    color: #fff;
-`;
-
 export const CurrentlyForecastContainer = styled(Animated.View)`
     position: relative;
     width: 98%;
@@ -160,33 +152,4 @@ export const NextDaysTitle = styled.Text`
 
 export const NextDaysForecastScroll = styled.View`
     height: 100%;
-`;
-
-export const NextDaysCard = styled.View`
-    margin: 10px 10px;
-    background: #efefef;
-    padding: 20px;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
-    border-radius: 15px;
-
-    elevation: 2;
-`;
-
-export const NextDaysDay = styled.Text`
-    font-family: Raleway-SemiBold;
-    font-size: 16px;
-`;
-
-export const NextDaysMinMaxContainer = styled.View``;
-
-export const NextDaysMinMaxTemp = styled.Text`
-    font-family: Raleway-Regular;
-    font-size: 16px;
-`;
-
-export const NextDaysIcon = styled.Image`
-    width: 50px;
-    height: 50px;
 `;
