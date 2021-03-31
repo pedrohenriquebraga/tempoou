@@ -26,13 +26,6 @@ export const Background = styled.ImageBackground`
     justify-content: center;
 `;
 
-export const Title = styled.Text`
-    text-align: center;
-    margin-top: 20px;
-    font-size: 20px;
-    font-family: Raleway-Regular;
-`;
-
 export const Label = styled.Text`
     font-size: 18px;
     font-family: Raleway-SemiBold;

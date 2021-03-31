@@ -1,4 +1,4 @@
-package com.tempoou_native;
+package com.easyapps.tempoou;
 
 import android.app.Application;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.tempoou_native;
+package com.easyapps.tempoou;
 
 import com.facebook.react.ReactActivity;
 

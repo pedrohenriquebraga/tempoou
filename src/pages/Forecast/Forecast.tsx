@@ -1,22 +1,20 @@
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { format, getHours, isBefore, parseISO } from "date-fns";
-import React, { useEffect, useState, memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Alert, Dimensions, ScrollView, View } from "react-native";
 import {
-    useSharedValue,
-    useAnimatedStyle,
-    withTiming,
     Easing,
-    interpolate,
-    Extrapolate,
+    useAnimatedStyle,
+    useSharedValue,
+    withTiming,
 } from "react-native-reanimated";
-
 import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Loading from "../../components/Loading/Loading";
 import config from "../../config.json";
 import api from "../../services/api";
 import { IForecast } from "../../ts/interfaces/IForecast";
+import { transformTime } from "../../utils/time";
 import {
     CityTitle,
     Container,
@@ -98,24 +96,6 @@ const Forecast: React.FC = () => {
                 return navigation.navigate("Home");
             });
     }, []);
-
-    function transformTime(time: string): string {
-        const timeArray = time.toUpperCase().split(" ");
-        const separatedTime = timeArray[0].split(":");
-        const hours = separatedTime[0].replace("0", "");
-        const minutes = separatedTime[1];
-        const period = timeArray[1];
-
-        if (period === "AM") {
-            if (hours == "12") return `00:${minutes.padStart(2, "0")}`;
-            return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
-        } else {
-            return `${String(Number(hours) + 12).padStart(
-                2,
-                "0"
-            )}:${minutes.padStart(2, "0")}`;
-        }
-    }
 
     if (!forecast)
         return <Loading message={`Previsão do Tempo de ${city}...`} />;

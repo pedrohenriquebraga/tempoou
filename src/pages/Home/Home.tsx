@@ -4,6 +4,9 @@ import { useNavigation } from "@react-navigation/core";
 import storage from "@react-native-async-storage/async-storage";
 import Feather from "react-native-vector-icons/Feather";
 import background from "../../images/background.jpg";
+
+import { Title } from "../../components/Custom/Custom";
+
 import {
     Background,
     Button,
@@ -14,7 +17,6 @@ import {
     InputContainer,
     Label,
     SearchContainer,
-    Title,
 } from "./styles";
 
 import { BannerAd, BannerAdSize, TestIds } from "@react-native-firebase/admob";
@@ -45,7 +47,7 @@ const Home: React.FC = () => {
         <Container>
             <BannerAd
                 unitId={TestIds.BANNER}
-                size={BannerAdSize.FULL_BANNER}
+                size={BannerAdSize.ADAPTIVE_BANNER}
                 onAdClosed={() => {}}
                 onAdOpened={() => {}}
                 onAdFailedToLoad={() => {}}
@@ -54,7 +56,12 @@ const Home: React.FC = () => {
             />
             <Background source={background} resizeMode="stretch">
                 <SearchContainer>
-                    <Title>
+                    <Title
+                        align="center"
+                        margin="20px 0px 0px 0px"
+                        fontSize="20px"
+                        fontFamily="Raleway-Regular"
+                    >
                         <Feather name="cloud-rain" size={25} /> Veja a previsão
                         do tempo
                     </Title>
