@@ -15,7 +15,7 @@ interface IHourByHour {
 
 const HourByHour = ({ fore }: IHourByHour) => {
   const isValidHour =
-    isBefore(parseISO(fore.time), new Date()) &&
+    !isBefore(parseISO(fore.time), new Date()) &&
     getHours(parseISO(fore.time)) !== new Date().getHours();
 
   if (!isValidHour) return null;
@@ -25,6 +25,7 @@ const HourByHour = ({ fore }: IHourByHour) => {
       <HourByHourIcon
         source={{
           uri: "https:" + fore.condition.icon,
+          priority: "high",
         }}
       />
       <HourByHourTemperature>{Math.round(fore.temp_c)}°C</HourByHourTemperature>

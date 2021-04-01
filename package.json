@@ -3,10 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
-    "test": "jest",
+    "android:prod": "set APP_ENV=production&&react-native run-android",
+    "android:dev": "set APP_ENV=development&&react-native run-android",
+    "ios:prod": "set APP_ENV=production&&react-native run-ios",
+    "ios:dev": "set APP_ENV=development&&react-native run-ios",
+    "start:prod": "set APP_ENV=production&&react-native start",
+    "start:dev": "set APP_ENV=development&&react-native start",
+    "build:prod": "set APP_ENV=production&&./android/gradlew assembleRelease",
     "link": "react-native link"
   },
   "dependencies": {
@@ -24,6 +27,7 @@
     "react": "16.13.1",
     "react-native": "0.64.0",
     "react-native-dotenv": "^2.5.3",
+    "react-native-fast-image": "^8.3.4",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-reanimated": "^2.0.1",
     "react-native-safe-area-context": "3.1.9",

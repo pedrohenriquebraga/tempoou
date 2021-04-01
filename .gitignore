@@ -60,7 +60,7 @@ buck-out/
 
 # Others
 .vscode 
-.env
+.env*
 config.json
 firebase.json
 google-services.json

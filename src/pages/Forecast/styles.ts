@@ -1,5 +1,6 @@
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
+import FastImage from "react-native-fast-image";
 
 export const Container = styled.ScrollView`
   width: ${Dimensions.get("screen").width}px;
@@ -79,7 +80,7 @@ export const CurrentlyForecastRightContent = styled.View`
   padding: 10px;
 `;
 
-export const CurrentlyForecastIcon = styled.Image`
+export const CurrentlyForecastIcon = styled(FastImage)`
   width: 130px;
   height: 130px;
   margin: 5px 10px;

@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+import FastImage from "react-native-fast-image";
 
 export const HourByHourChanceRain = styled.Text`
   text-align: center;
@@ -12,7 +13,7 @@ export const HourByHourCard = styled.View`
   margin-right: 15px;
 `;
 
-export const HourByHourIcon = styled.Image`
+export const HourByHourIcon = styled(FastImage)`
   width: 75px;
   height: 75px;
   margin: 0 auto;

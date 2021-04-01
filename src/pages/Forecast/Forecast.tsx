@@ -4,7 +4,6 @@ import {
   BannerAd,
   BannerAdSize,
   InterstitialAd,
-  TestIds,
 } from "@react-native-firebase/admob";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import React, { memo, useEffect, useState } from "react";
@@ -17,6 +16,7 @@ import Loading from "../../components/Loading/Loading";
 import NextDay from "../../components/NextDaysCard/NextDaysCard";
 import api from "../../services/api";
 import { IForecast } from "../../ts/interfaces/IForecast";
+import { AdTypes, GetAdId } from "../../utils/ads";
 import { transformTime } from "../../utils/time";
 import {
   Container,
@@ -42,7 +42,9 @@ const Forecast: React.FC = () => {
   const navigation = useNavigation();
   const { city } = route.params as { city: string };
 
-  const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
+  const interstitial = InterstitialAd.createForAdRequest(
+    GetAdId(AdTypes.INTERSTICIAL)
+  );
 
   interstitial.onAdEvent((type) => {
     if (type === AdEventType.LOADED && !showedAd) {
@@ -94,6 +96,7 @@ const Forecast: React.FC = () => {
           <CurrentlyForecastIcon
             source={{
               uri: "https:" + forecast.current.condition.icon,
+              priority: "high",
             }}
           />
           <ForecastInfo>{forecast.current.condition.text}</ForecastInfo>
@@ -109,7 +112,7 @@ const Forecast: React.FC = () => {
         </CurrentlyForecastRightContent>
       </CurrentlyForecastContainer>
       <BannerAd
-        unitId={TestIds.BANNER}
+        unitId={GetAdId(AdTypes.BANNER)}
         size={BannerAdSize.ADAPTIVE_BANNER}
         onAdClosed={() => {}}
         onAdOpened={() => {}}
@@ -175,7 +178,7 @@ const Forecast: React.FC = () => {
         </View>
       </ExtraInfos>
       <BannerAd
-        unitId={TestIds.BANNER}
+        unitId={GetAdId(AdTypes.BANNER)}
         size={BannerAdSize.ADAPTIVE_BANNER}
         onAdClosed={() => {}}
         onAdOpened={() => {}}

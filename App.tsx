@@ -1,6 +1,4 @@
-import admob, {
-  MaxAdContentRating,
-} from "@react-native-firebase/admob";
+import admob, { MaxAdContentRating } from "@react-native-firebase/admob";
 import React, { useEffect } from "react";
 import "react-native-gesture-handler";
 import AppRoutes from "./src/routes";

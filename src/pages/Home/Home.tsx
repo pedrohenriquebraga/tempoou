@@ -4,9 +4,7 @@ import { useNavigation } from "@react-navigation/core";
 import storage from "@react-native-async-storage/async-storage";
 import Feather from "react-native-vector-icons/Feather";
 import background from "../../images/background.jpg";
-
 import { Title } from "../../components/Custom/Custom";
-
 import {
   Background,
   Button,
@@ -19,7 +17,8 @@ import {
   SearchContainer,
 } from "./styles";
 
-import { BannerAd, BannerAdSize, TestIds } from "@react-native-firebase/admob";
+import { BannerAd, BannerAdSize } from "@react-native-firebase/admob";
+import { GetAdId, AdTypes } from "../../utils/ads";
 
 const Home: React.FC = () => {
   const navigation = useNavigation();
@@ -46,7 +45,7 @@ const Home: React.FC = () => {
   return (
     <Container>
       <BannerAd
-        unitId={TestIds.BANNER}
+        unitId={GetAdId(AdTypes.BANNER)}
         size={BannerAdSize.ADAPTIVE_BANNER}
         onAdClosed={() => {}}
         onAdOpened={() => {}}
