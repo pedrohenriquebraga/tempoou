@@ -64,3 +64,4 @@ buck-out/
 config.json
 firebase.json
 tempoou-firebase.json
+google-services.json

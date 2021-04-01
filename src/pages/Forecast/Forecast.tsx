@@ -1,16 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { format, getHours, isBefore, parseISO } from "date-fns";
 import React, { useEffect, useState, memo } from "react";
-import { Alert, Dimensions, ScrollView, View } from "react-native";
-import {
-    useSharedValue,
-    useAnimatedStyle,
-    withTiming,
-    Easing,
-    interpolate,
-    Extrapolate,
-} from "react-native-reanimated";
-
+import { Alert, ScrollView, View } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Loading from "../../components/Loading/Loading";
@@ -53,42 +44,12 @@ const Forecast: React.FC = () => {
     const [forecast, setForecast] = useState<IForecast>();
     const { city } = route.params as { city: string };
 
-    const containerPosition = useSharedValue(Dimensions.get("screen").width);
-    const currentlyForecastPosition = useSharedValue(
-        -Dimensions.get("screen").height / 2
-    );
-
-    const containerAnimation = useAnimatedStyle(() => {
-        return {
-            transform: [{ translateX: containerPosition.value }],
-        };
-    });
-
-    const currentlyAnimation = useAnimatedStyle(() => {
-        return {
-            transform: [{ translateY: currentlyForecastPosition.value }],
-        };
-    });
-
     useEffect(() => {
         api.get(
             `/forecast.json?key=${config.apikey}&q=${city}&days=3&aqi=yes&alerts=no&lang=pt`
         )
             .then((response) => {
                 setForecast(response.data);
-                containerPosition.value = withTiming(
-                    0,
-                    {
-                        duration: 800,
-                        easing: Easing.elastic(1),
-                    },
-                    () => {
-                        currentlyForecastPosition.value = withTiming(0, {
-                            duration: 350,
-                            easing: Easing.linear,
-                        });
-                    }
-                );
             })
             .catch((err) => {
                 Alert.alert(
@@ -121,8 +82,8 @@ const Forecast: React.FC = () => {
         return <Loading message={`Previsão do Tempo de ${city}...`} />;
 
     return (
-        <Container style={containerAnimation}>
-            <CurrentlyForecastContainer style={currentlyAnimation}>
+        <Container>
+            <CurrentlyForecastContainer>
                 <CityTitle>
                     <Feather name="map-pin" size={20} /> {city}
                 </CityTitle>
