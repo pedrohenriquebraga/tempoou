@@ -8,14 +8,8 @@ import {
 } from "@react-native-firebase/admob";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { format, getHours, isBefore, parseISO } from "date-fns";
-import React, { memo, useEffect, useState } from "react";
-import { Alert, Dimensions, ScrollView, View } from "react-native";
-import {
-    Easing,
-    useAnimatedStyle,
-    useSharedValue,
-    withTiming,
-} from "react-native-reanimated";
+import React, { useEffect, useState, memo } from "react";
+import { Alert, ScrollView, View } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Title } from "../../components/Custom/Custom";
@@ -54,37 +48,6 @@ const Forecast: React.FC = () => {
     const [forecast, setForecast] = useState<IForecast>();
     const [showedAd, setShowedAd] = useState(false);
     const { city } = route.params as { city: string };
-    const containerPosition = useSharedValue(Dimensions.get("screen").width);
-    const currentlyForecastPosition = useSharedValue(
-        -Dimensions.get("screen").height / 2
-    );
-
-    const containerAnimation = useAnimatedStyle(() => {
-        return {
-            transform: [{ translateX: containerPosition.value }],
-        };
-    });
-
-    const currentlyAnimation = useAnimatedStyle(() => {
-        return {
-            transform: [{ translateY: currentlyForecastPosition.value }],
-        };
-    });
-
-    const interstitial = InterstitialAd.createForAdRequest(
-        TestIds.INTERSTITIAL
-    );
-
-    const interstitialEventListener = interstitial.onAdEvent((type) => {
-        if (type == AdEventType.LOADED) {
-            console.log("OK!");
-            return interstitial.show();
-        }
-
-        if (type == AdEventType.OPENED) {
-            return setShowedAd(true);
-        }
-    });
 
     useEffect(() => {
         api.get(
@@ -92,24 +55,6 @@ const Forecast: React.FC = () => {
         )
             .then((response) => {
                 setForecast(response.data);
-                containerPosition.value = withTiming(
-                    0,
-                    {
-                        duration: 800,
-                        easing: Easing.elastic(1),
-                    },
-                    () => {
-                        currentlyForecastPosition.value = withTiming(0, {
-                            duration: 350,
-                            easing: Easing.linear,
-                        });
-                    }
-                );
-
-                if (!showedAd) return;
-
-                interstitialEventListener();
-                interstitial.load();
             })
             .catch((err) => {
                 Alert.alert(
@@ -130,15 +75,9 @@ const Forecast: React.FC = () => {
     }
 
     return (
-        <Container style={containerAnimation}>
-            <CurrentlyForecastContainer style={currentlyAnimation}>
-                <Title
-                    align="center"
-                    fontFamily="Raleway-Bold"
-                    fontSize="23px"
-                    margin="20px 0"
-                    color="#fff"
-                >
+        <Container>
+            <CurrentlyForecastContainer>
+                <Title fontSize="20px">
                     <Feather name="map-pin" size={20} /> {city}
                 </Title>
                 <CurrentlyForecastLeftContent>

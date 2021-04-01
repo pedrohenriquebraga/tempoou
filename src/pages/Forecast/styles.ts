@@ -1,14 +1,21 @@
 import { Dimensions } from "react-native";
-import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
 
-export const Container = styled(Animated.ScrollView)`
+export const Container = styled.View`
     width: ${Dimensions.get("screen").width}px;
     height: ${Dimensions.get("screen").height}px;
     flex: 1;
 `;
 
-export const CurrentlyForecastContainer = styled(Animated.View)`
+export const CityTitle = styled.Text`
+    text-align: center;
+    font-family: Raleway-Bold;
+    font-size: 23px;
+    margin: 20px 0;
+    color: #fff;
+`;
+
+export const CurrentlyForecastContainer = styled.View`
     position: relative;
     width: 98%;
     height: 300px;
