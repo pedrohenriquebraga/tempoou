@@ -59,7 +59,7 @@ buck-out/
 /ios/Pods/
 
 # Others
-.vscode
+.vscode 
 .env
 config.json
 firebase.json
