@@ -13,8 +13,6 @@ interface ILoadingProps {
 }
 
 const Loading = ({ message, showInterstitialAd }: ILoadingProps) => {
-    const [hasAd, setHasAd] = useState(false);
-
     return (
         <Container>
             <AnimationContainer source={LoadingAnimation} autoPlay loop />

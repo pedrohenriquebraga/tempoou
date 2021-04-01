@@ -11,12 +11,11 @@ import {
 
 interface INextDay {
     fore: any;
-    key: number;
 }
 
-const NextDay = ({ fore, key }: INextDay) => {
+const NextDay = ({ fore }: INextDay) => {
     return (
-        <NextDaysCard key={key}>
+        <NextDaysCard key={Math.random()}>
             <NextDaysDay>{format(parseISO(fore.date), "dd/MM")}</NextDaysDay>
             <NextDaysMinMaxContainer>
                 <NextDaysMinMaxTemp>

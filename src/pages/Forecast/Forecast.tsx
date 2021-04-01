@@ -1,4 +1,11 @@
-import { BannerAd, BannerAdSize, TestIds } from "@react-native-firebase/admob";
+import { API_KEY } from "@env";
+import {
+    AdEventType,
+    BannerAd,
+    BannerAdSize,
+    InterstitialAd,
+    TestIds,
+} from "@react-native-firebase/admob";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { format, getHours, isBefore, parseISO } from "date-fns";
 import React, { memo, useEffect, useState } from "react";
@@ -13,8 +20,7 @@ import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Title } from "../../components/Custom/Custom";
 import Loading from "../../components/Loading/Loading";
-import NextDay from "../../components/NextDay/NextDaysCard";
-import config from "../../config.json";
+import NextDay from "../../components/NextDaysCard/NextDaysCard";
 import api from "../../services/api";
 import { IForecast } from "../../ts/interfaces/IForecast";
 import { transformTime } from "../../utils/time";
@@ -46,6 +52,7 @@ const Forecast: React.FC = () => {
     const route = useRoute();
     const navigation = useNavigation();
     const [forecast, setForecast] = useState<IForecast>();
+    const [showedAd, setShowedAd] = useState(false);
     const { city } = route.params as { city: string };
     const containerPosition = useSharedValue(Dimensions.get("screen").width);
     const currentlyForecastPosition = useSharedValue(
@@ -64,9 +71,24 @@ const Forecast: React.FC = () => {
         };
     });
 
+    const interstitial = InterstitialAd.createForAdRequest(
+        TestIds.INTERSTITIAL
+    );
+
+    const interstitialEventListener = interstitial.onAdEvent((type) => {
+        if (type == AdEventType.LOADED) {
+            console.log("OK!");
+            return interstitial.show();
+        }
+
+        if (type == AdEventType.OPENED) {
+            return setShowedAd(true);
+        }
+    });
+
     useEffect(() => {
         api.get(
-            `/forecast.json?key=${config.apikey}&q=${city}&days=3&aqi=yes&alerts=no&lang=pt`
+            `/forecast.json?key=${API_KEY}&q=${city}&days=3&aqi=yes&alerts=no&lang=pt`
         )
             .then((response) => {
                 setForecast(response.data);
@@ -83,6 +105,11 @@ const Forecast: React.FC = () => {
                         });
                     }
                 );
+
+                if (!showedAd) return;
+
+                interstitialEventListener();
+                interstitial.load();
             })
             .catch((err) => {
                 Alert.alert(
@@ -230,7 +257,7 @@ const Forecast: React.FC = () => {
                     {forecast.forecast.forecastday
                         .slice(1)
                         .map((fore, index) => (
-                            <NextDay fore={fore} key={index} />
+                            <NextDay key={index} fore={fore} />
                         ))}
                 </NextDaysForecastScroll>
             </NextDaysForecastContainer>

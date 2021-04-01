@@ -61,6 +61,7 @@ buck-out/
 # Others
 .vscode
 .env
+.env.production
 config.json
 firebase.json
 tempoou-firebase.json
