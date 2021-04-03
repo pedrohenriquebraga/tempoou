@@ -10,6 +10,7 @@
     "start:prod": "set APP_ENV=production&&react-native start",
     "start:dev": "set APP_ENV=development&&react-native start",
     "build:prod": "set APP_ENV=production&&./android/gradlew assembleRelease",
+    "size": "react-native-bundle-visualizer",
     "link": "react-native link"
   },
   "dependencies": {

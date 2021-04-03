@@ -4,6 +4,7 @@ import {
   BannerAd,
   BannerAdSize,
   InterstitialAd,
+  TestIds,
 } from "@react-native-firebase/admob";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import React, { memo, useEffect, useState } from "react";
@@ -17,7 +18,7 @@ import NextDay from "../../components/NextDaysCard/NextDaysCard";
 import api from "../../services/api";
 import { IForecast } from "../../ts/interfaces/IForecast";
 import { AdTypes, GetAdId } from "../../utils/ads";
-import { transformTime } from "../../utils/time";
+import { transformToMS, transformTime, TimeTypes } from "../../utils/time";
 import {
   Container,
   CurrentlyForecastContainer,
@@ -41,25 +42,18 @@ const Forecast: React.FC = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { city } = route.params as { city: string };
-
   const interstitial = InterstitialAd.createForAdRequest(
-    GetAdId(AdTypes.INTERSTICIAL)
+    GetAdId(AdTypes.INTERSTITIAL)
   );
 
   interstitial.onAdEvent((type) => {
     if (type === AdEventType.LOADED && !showedAd) {
-      return interstitial.show({
+      interstitial.show({
         immersiveModeEnabled: true,
       });
     }
 
-    if (type === AdEventType.OPENED) {
-      return setShowedAd(true);
-    }
-
-    if (type === AdEventType.CLOSED) {
-      return setShowedAd(true);
-    }
+    return setShowedAd(true);
   });
 
   useEffect(() => {
@@ -74,7 +68,7 @@ const Forecast: React.FC = () => {
       .catch((err) => {
         Alert.alert(
           "Cidade não encontrada!",
-          `A cidade "${city}" não foi encontrada!`
+          `A cidade "${city}" não foi encontrada! Reveja o nome ou tenta novamente em alguns segundos!`
         );
         return navigation.navigate("Home");
       });

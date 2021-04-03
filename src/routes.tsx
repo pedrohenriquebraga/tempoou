@@ -10,37 +10,37 @@ import Home from "./pages/Home/Home";
 const { Screen, Navigator } = createStackNavigator();
 
 const AppRoutes: React.FC = () => {
-    const [connected, setConnected] = useState(true);
+  const [connected, setConnected] = useState(true);
 
-    useEffect(() => {
-        NetInfo.fetch().then((state) => {
-            setConnected(state.isConnected && state.isInternetReachable);
+  useEffect(() => {
+    NetInfo.fetch().then((state) => {
+      setConnected(state.isConnected && state.isInternetReachable);
 
-            NetInfo.addEventListener((state) => {
-                setConnected(state.isConnected && state.isInternetReachable);
-            });
-        });
-    }, []);
+      NetInfo.addEventListener((state) => {
+        setConnected(state.isConnected && state.isInternetReachable);
+      });
+    });
+  }, []);
 
-    if (!connected) {
-        return <NoNetwork />;
-    }
+  if (!connected) {
+    return <NoNetwork />;
+  }
 
-    return (
-        <NavigationContainer>
-            <Navigator screenOptions={{ headerShown: false }}>
-                <Screen name="Home" component={Home} />
-                <Screen
-                    name="Forecast"
-                    component={Forecast}
-                    options={{
-                        header: () => <Header title="Previsão do Tempo" />,
-                        headerShown: true,
-                    }}
-                />
-            </Navigator>
-        </NavigationContainer>
-    );
+  return (
+    <NavigationContainer>
+      <Navigator screenOptions={{ headerShown: false }}>
+        <Screen name="Home" component={Home} />
+        <Screen
+          name="Forecast"
+          component={Forecast}
+          options={{
+            header: () => <Header title="Previsão do Tempo" />,
+            headerShown: true,
+          }}
+        />
+      </Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default AppRoutes;
