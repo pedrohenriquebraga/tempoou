@@ -64,3 +64,4 @@ buck-out/
 config.json
 firebase.json
 google-services.json
+*.hprof

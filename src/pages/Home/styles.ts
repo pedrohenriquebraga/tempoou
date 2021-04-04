@@ -20,6 +20,7 @@ export const SearchContainer = styled.View`
 `;
 
 export const Background = styled.ImageBackground`
+  position: relative;
   width: 100%;
   flex: 1;
   align-items: center;

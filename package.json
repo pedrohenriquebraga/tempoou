@@ -10,6 +10,7 @@
     "start:prod": "set APP_ENV=production&&react-native start",
     "start:dev": "set APP_ENV=development&&react-native start",
     "build:prod": "set APP_ENV=production&&./android/gradlew assembleRelease",
+    "build:dev": "set APP_ENV=development&&./android/gradlew assembleRelease",
     "size": "react-native-bundle-visualizer",
     "link": "react-native link"
   },
@@ -30,9 +31,11 @@
     "react-native-dotenv": "^2.5.3",
     "react-native-fast-image": "^8.3.4",
     "react-native-gesture-handler": "~1.8.0",
+    "react-native-onboarding-swiper": "^1.1.4",
     "react-native-reanimated": "^2.0.1",
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.2",
+    "react-native-splash-screen": "^3.2.0",
     "react-native-vector-icons": "^8.1.0",
     "styled-components": "^5.2.1"
   },
@@ -43,6 +46,7 @@
     "@types/jest": "^26.0.20",
     "@types/react-native": "^0.64.0",
     "@types/react-native-dotenv": "^0.2.0",
+    "@types/react-native-onboarding-swiper": "^1.1.1",
     "@types/react-native-vector-icons": "^6.4.6",
     "@types/react-test-renderer": "^16.9.2",
     "@types/styled-components": "^5.1.9",
