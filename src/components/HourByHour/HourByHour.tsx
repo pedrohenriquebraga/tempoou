@@ -1,4 +1,5 @@
-import { format, getHours, isBefore, parseISO } from "date-fns";
+import { format, getHours, isBefore, isTomorrow, parseISO } from "date-fns";
+import { isToday } from "date-fns/esm";
 import React, { memo } from "react";
 import Feather from "react-native-vector-icons/Feather";
 import {
@@ -11,10 +12,12 @@ import {
 
 interface IHourByHour {
   fore: any;
+  date: string;
 }
 
-const HourByHour = ({ fore }: IHourByHour) => {
+const HourByHour = ({ fore, date }: IHourByHour) => {
   const isValidHour =
+    !isTomorrow(parseISO(date)) &&
     !isBefore(parseISO(fore.time), new Date()) &&
     getHours(parseISO(fore.time)) !== new Date().getHours();
 

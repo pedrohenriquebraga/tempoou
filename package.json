@@ -9,8 +9,8 @@
     "ios:dev": "set APP_ENV=development&&react-native run-ios",
     "start:prod": "set APP_ENV=production&&react-native start",
     "start:dev": "set APP_ENV=development&&react-native start",
-    "build:prod": "set APP_ENV=production&&./android/gradlew assembleRelease",
-    "build:dev": "set APP_ENV=development&&./android/gradlew assembleRelease",
+    "build:prod": "set APP_ENV=production&&cd ./android&&./gradlew assembleRelease",
+    "build:dev": "set APP_ENV=development&&cd ./android&&./gradlew assembleRelease",
     "size": "react-native-bundle-visualizer",
     "link": "react-native link"
   },
@@ -28,6 +28,7 @@
     "lottie-react-native": "^3.5.0",
     "react": "16.13.1",
     "react-native": "0.64.0",
+    "react-native-chart-kit": "^6.11.0",
     "react-native-dotenv": "^2.5.3",
     "react-native-fast-image": "^8.3.4",
     "react-native-gesture-handler": "~1.8.0",
@@ -36,6 +37,7 @@
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.2",
     "react-native-splash-screen": "^3.2.0",
+    "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^8.1.0",
     "styled-components": "^5.2.1"
   },

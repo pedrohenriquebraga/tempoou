@@ -4,13 +4,13 @@ import {
   BannerAd,
   BannerAdSize,
   InterstitialAd,
-  TestIds,
 } from "@react-native-firebase/admob";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import React, { memo, useEffect, useState } from "react";
 import { Alert, ScrollView, View } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Fontisto from "react-native-vector-icons/Fontisto";
 import { Title } from "../../components/Custom/Custom";
 import HourByHour from "../../components/HourByHour/HourByHour";
 import Loading from "../../components/Loading/Loading";
@@ -18,13 +18,17 @@ import NextDay from "../../components/NextDaysCard/NextDaysCard";
 import api from "../../services/api";
 import { IForecast } from "../../ts/interfaces/IForecast";
 import { AdTypes, GetAdId } from "../../utils/ads";
-import { transformToMS, transformTime, TimeTypes } from "../../utils/time";
+import { transformTime } from "../../utils/time";
 import {
   Container,
   CurrentlyForecastContainer,
   CurrentlyForecastIcon,
   CurrentlyForecastLeftContent,
   CurrentlyForecastRightContent,
+  DetailBar,
+  DetailsContainer,
+  DetailTitle,
+  DetailValue,
   ExtraInfos,
   ForecastFeelsLikeTemperature,
   ForecastInfo,
@@ -39,6 +43,7 @@ import {
 const Forecast: React.FC = () => {
   const [showedAd, setShowedAd] = useState(false);
   const [forecast, setForecast] = useState<IForecast>();
+
   const route = useRoute();
   const navigation = useNavigation();
   const { city } = route.params as { city: string };
@@ -145,12 +150,16 @@ const Forecast: React.FC = () => {
           fontFamily="Raleway-Regular"
           margin="0px 0px 10px 0px"
         >
-          Previsão para hoje
+          Previsão hora a hora
         </Title>
         <ScrollView horizontal>
-          {forecast.forecast.forecastday[0].hour.map((fore, index: number) => (
-            <HourByHour fore={fore} key={index} />
-          ))}
+          {forecast.forecast.forecastday.map((forecast) => {
+            const date = forecast.date;
+
+            return forecast.hour.map((fore, index) => {
+              return <HourByHour fore={fore} key={index} date={date} />;
+            });
+          })}
         </ScrollView>
       </HourByHourContainer>
       <ExtraInfos>
@@ -171,6 +180,114 @@ const Forecast: React.FC = () => {
           </InfoCardValue>
         </View>
       </ExtraInfos>
+      <BannerAd
+        unitId={GetAdId(AdTypes.BANNER)}
+        size={BannerAdSize.ADAPTIVE_BANNER}
+        onAdClosed={() => {}}
+        onAdOpened={() => {}}
+        onAdFailedToLoad={() => {}}
+        onAdLoaded={() => {}}
+        onAdLeftApplication={() => {}}
+      />
+
+      <DetailsContainer>
+        <Title
+          align="center"
+          fontSize="20px"
+          fontFamily="Raleway-Regular"
+          margin="0px 0px 10px 0px"
+        >
+          Detalhes de hoje
+        </Title>
+        <View>
+          <DetailBar>
+            <DetailTitle>
+              <Feather name="thermometer" size={20} /> Temperatura Min/Max
+            </DetailTitle>
+            <DetailValue>
+              {Math.round(forecast.forecast.forecastday[0].day.mintemp_c)}°C/
+              {Math.round(forecast.forecast.forecastday[0].day.maxtemp_c)}°C
+            </DetailValue>
+          </DetailBar>
+          <DetailBar>
+            <DetailTitle>
+              <Ionicons name="water-outline" size={20} /> Precipitação
+            </DetailTitle>
+            <DetailValue>
+              {forecast.forecast.forecastday[0].day.totalprecip_mm.toFixed(2)}{" "}
+              mm
+            </DetailValue>
+          </DetailBar>
+          <DetailBar>
+            <DetailTitle>
+              <Fontisto name="day-sunny" size={20} /> Índice UV
+            </DetailTitle>
+            <DetailValue>{forecast.current.uv}</DetailValue>
+          </DetailBar>
+          <DetailBar>
+            <DetailTitle>
+              <Fontisto name="wind" size={20} /> Rajada
+            </DetailTitle>
+            <DetailValue>{forecast.current.gust_kph} Km/h</DetailValue>
+          </DetailBar>
+          <DetailBar>
+            <DetailTitle>
+              <Fontisto name="rains" size={20} /> Chance de chuva
+            </DetailTitle>
+            <DetailValue>
+              {forecast.forecast.forecastday[0].day.daily_chance_of_rain}%
+            </DetailValue>
+          </DetailBar>
+          <DetailBar>
+            <DetailTitle>
+              <Feather name="cloud-snow" size={20} /> Chance de neve
+            </DetailTitle>
+            <DetailValue>
+              {forecast.forecast.forecastday[0].day.daily_chance_of_snow}%
+            </DetailValue>
+          </DetailBar>
+        </View>
+      </DetailsContainer>
+      <DetailsContainer>
+        <Title
+          align="center"
+          fontSize="20px"
+          fontFamily="Raleway-Regular"
+          margin="0px 0px 10px 0px"
+        >
+          Qualidade do ar
+        </Title>
+        <DetailBar>
+          <DetailTitle>CO2</DetailTitle>
+          <DetailValue>
+            {forecast.current.air_quality.co.toFixed(2)}
+          </DetailValue>
+        </DetailBar>
+        <DetailBar>
+          <DetailTitle>NO2</DetailTitle>
+          <DetailValue>
+            {forecast.current.air_quality.no2.toFixed(2)}
+          </DetailValue>
+        </DetailBar>
+        <DetailBar>
+          <DetailTitle>O3</DetailTitle>
+          <DetailValue>
+            {forecast.current.air_quality.o3.toFixed(2)}
+          </DetailValue>
+        </DetailBar>
+        <DetailBar>
+          <DetailTitle>SO2</DetailTitle>
+          <DetailValue>
+            {forecast.current.air_quality.so2.toFixed(2)}
+          </DetailValue>
+        </DetailBar>
+        <DetailBar>
+          <DetailTitle>PM2.5</DetailTitle>
+          <DetailValue>
+            {forecast.current.air_quality.pm2_5.toFixed(2)}
+          </DetailValue>
+        </DetailBar>
+      </DetailsContainer>
       <BannerAd
         unitId={GetAdId(AdTypes.BANNER)}
         size={BannerAdSize.ADAPTIVE_BANNER}

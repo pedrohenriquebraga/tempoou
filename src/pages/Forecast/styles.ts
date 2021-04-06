@@ -61,6 +61,8 @@ export const HourByHourContainer = styled.View`
   elevation: 3;
 `;
 
+export const HourByHourScroll = styled.ScrollView``;
+
 export const CurrentlyForecastLeftContent = styled.View`
   position: absolute;
   left: 0;
@@ -117,3 +119,19 @@ export const NextDaysForecastContainer = styled.View`
 export const NextDaysForecastScroll = styled.View`
   height: 100%;
 `;
+
+export const DetailsContainer = styled(NextDaysForecastContainer)`
+  padding: 20px 0;
+`;
+
+export const DetailBar = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding: 10px;
+  margin-bottom: 5px;
+`;
+
+export const DetailTitle = styled(InfoCardTitle)``;
+
+export const DetailValue = styled(InfoCardValue)``;
