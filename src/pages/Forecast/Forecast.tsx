@@ -39,6 +39,7 @@ import {
   NextDaysForecastContainer,
   NextDaysForecastScroll,
 } from "./styles";
+import { format, parseISO } from "date-fns/esm";
 
 const Forecast: React.FC = () => {
   const [showedAd, setShowedAd] = useState(false);
@@ -87,9 +88,17 @@ const Forecast: React.FC = () => {
 
   return (
     <Container>
+      <Title
+        fontSize="15px"
+        margin="10px 5px -5px 10px"
+        fontFamily="Raleway-Regular"
+        align="right"
+      >
+        atualizado às {format(parseISO(forecast.current.last_updated), "HH:mm")}
+      </Title>
       <CurrentlyForecastContainer>
         <Title fontSize="20px" color="white" align="center" margin="20px 0">
-          <Feather name="map-pin" size={20} /> {city}
+          <Feather name="map-pin" size={20} /> {forecast.location.name}
         </Title>
         <CurrentlyForecastLeftContent>
           <CurrentlyForecastIcon
@@ -130,7 +139,7 @@ const Forecast: React.FC = () => {
         </View>
         <View>
           <InfoCardTitle>
-            <Ionicons name="water-outline" size={16} /> Umidade
+            <Ionicons name="water-outline" size={16} color="#5773ff" /> Umidade
           </InfoCardTitle>
           <InfoCardValue>{forecast.current.humidity}%</InfoCardValue>
         </View>
@@ -165,7 +174,7 @@ const Forecast: React.FC = () => {
       <ExtraInfos>
         <View>
           <InfoCardTitle>
-            <Feather name="sunrise" size={18} /> Nascer do Sol
+            <Feather name="sunrise" size={18} color="#fcca27" /> Nascer do Sol
           </InfoCardTitle>
           <InfoCardValue>
             {transformTime(forecast.forecast.forecastday[0].astro.sunrise)}
@@ -173,7 +182,7 @@ const Forecast: React.FC = () => {
         </View>
         <View>
           <InfoCardTitle>
-            <Feather name="sunset" size={18} /> Pôr do Sol
+            <Feather name="sunset" size={18} color="#ffc400" /> Pôr do Sol
           </InfoCardTitle>
           <InfoCardValue>
             {transformTime(forecast.forecast.forecastday[0].astro.sunset)}
@@ -202,7 +211,8 @@ const Forecast: React.FC = () => {
         <View>
           <DetailBar>
             <DetailTitle>
-              <Feather name="thermometer" size={20} /> Temperatura Min/Max
+              <Feather name="thermometer" size={20} color="#f00" /> Temperatura
+              Min/Max
             </DetailTitle>
             <DetailValue>
               {Math.round(forecast.forecast.forecastday[0].day.mintemp_c)}°C/
@@ -211,7 +221,8 @@ const Forecast: React.FC = () => {
           </DetailBar>
           <DetailBar>
             <DetailTitle>
-              <Ionicons name="water-outline" size={20} /> Precipitação
+              <Ionicons name="water-outline" size={20} color="#5773ff" />{" "}
+              Precipitação
             </DetailTitle>
             <DetailValue>
               {forecast.forecast.forecastday[0].day.totalprecip_mm.toFixed(2)}{" "}
@@ -220,7 +231,7 @@ const Forecast: React.FC = () => {
           </DetailBar>
           <DetailBar>
             <DetailTitle>
-              <Fontisto name="day-sunny" size={20} /> Índice UV
+              <Fontisto name="day-sunny" size={20} color="#ffc400" /> Índice UV
             </DetailTitle>
             <DetailValue>{forecast.current.uv}</DetailValue>
           </DetailBar>
@@ -258,33 +269,39 @@ const Forecast: React.FC = () => {
           Qualidade do ar
         </Title>
         <DetailBar>
-          <DetailTitle>CO2</DetailTitle>
+          <DetailTitle>CO</DetailTitle>
           <DetailValue>
-            {forecast.current.air_quality.co.toFixed(2)}
+            {forecast.current.air_quality.co.toFixed(2)} ppm
           </DetailValue>
         </DetailBar>
         <DetailBar>
           <DetailTitle>NO2</DetailTitle>
           <DetailValue>
-            {forecast.current.air_quality.no2.toFixed(2)}
+            {forecast.current.air_quality.no2.toFixed(2)} ug/m³
           </DetailValue>
         </DetailBar>
         <DetailBar>
           <DetailTitle>O3</DetailTitle>
           <DetailValue>
-            {forecast.current.air_quality.o3.toFixed(2)}
+            {forecast.current.air_quality.o3.toFixed(2)} ug/m³
           </DetailValue>
         </DetailBar>
         <DetailBar>
           <DetailTitle>SO2</DetailTitle>
           <DetailValue>
-            {forecast.current.air_quality.so2.toFixed(2)}
+            {forecast.current.air_quality.so2.toFixed(2)} ug/m³
+          </DetailValue>
+        </DetailBar>
+        <DetailBar>
+          <DetailTitle>PM10</DetailTitle>
+          <DetailValue>
+            {forecast.current.air_quality.pm10.toFixed(2)} ug/m³
           </DetailValue>
         </DetailBar>
         <DetailBar>
           <DetailTitle>PM2.5</DetailTitle>
           <DetailValue>
-            {forecast.current.air_quality.pm2_5.toFixed(2)}
+            {forecast.current.air_quality.pm2_5.toFixed(2)} ug/m³
           </DetailValue>
         </DetailBar>
       </DetailsContainer>
