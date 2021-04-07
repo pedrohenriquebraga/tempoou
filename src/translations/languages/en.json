@@ -1,0 +1,40 @@
+{
+  "loadings": {
+    "getCityForecast": "{{city}} Weather Forecast..."
+  },
+  "home": {
+    "mainTitle": "See the weather forecast",
+    "inputLabel": "City name",
+    "placeholders": {
+      "inputCity": "Type your city"
+    },
+    "buttons": {
+      "searchButton": "Search"
+    }
+  },
+  "forecast": {
+    "updatedAt": "Last update: {{time}}",
+    "feelsLike": "Feels like: {{temp}}",
+    "wind": "Wind",
+    "humidity": "Humidity",
+    "visibility": "Visibility",
+    "sunrise": "Sunrise",
+    "sunset": "Sunset",
+    "forecastHourByHour": "Hourly forecast",
+    "minMaxTemp": "Min/max temperature",
+    "UV": "UV index",
+    "details": "Today's details",
+    "precipitation": "Precipitation",
+    "gust": "Gust",
+    "chanceRain": "Rain chance",
+    "chanceSnow": "Snow chance",
+    "airQuality": "Air quality",
+    "nextDays": "Next {{amount}} days",
+    "alerts": {
+      "cityNotFound": {
+        "title": "City not found!",
+        "content": "The city '{{city}}' not found! Revise the name or try again in a few seconds!"
+      }
+    }
+  }
+}

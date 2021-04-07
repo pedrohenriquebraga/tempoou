@@ -1,0 +1,40 @@
+{
+  "loadings": {
+    "getCityForecast": "Pronóstico del tiempo de {{city}}..."
+  },
+  "home": {
+    "mainTitle": "Ver el pronóstico del tiempo",
+    "inputLabel": "Nombre de la ciudad",
+    "placeholders": {
+      "inputCity": "Escriba tu ciudad"
+    },
+    "buttons": {
+      "searchButton": "Buscar"
+    }
+  },
+  "forecast": {
+    "updatedAt": "Actualizado: {{time}}",
+    "feelsLike": "Sensación térmica: {{temp}}",
+    "wind": "Viento",
+    "humidity": "Humedad",
+    "visibility": "Visibilidad",
+    "sunrise": "Amanecer",
+    "sunset": "Atardecer",
+    "forecastHourByHour": "Pronóstico por hora",
+    "minMaxTemp": "Temperatura min/máx",
+    "UV": "Índice UV",
+    "details": "Detalles del dia",
+    "precipitation": "Precipitación",
+    "gust": "Ráfagas de viento",
+    "chanceRain": "Probabilidad de Lluvia",
+    "chanceSnow": "Probabilidad de nieve",
+    "airQuality": "Calidad del aire",
+    "nextDays": "Próximos {{amount}} días",
+    "alerts": {
+      "cityNotFound": {
+        "title": "Cidade não encontrada",
+        "content": "A cidade '{{city}}' não foi encontrada! Reveja o nome ou tenta novamente em alguns segundos!"
+      }
+    }
+  }
+}

@@ -19,6 +19,7 @@ import {
 
 import { BannerAd, BannerAdSize } from "@react-native-firebase/admob";
 import { GetAdId, AdTypes } from "../../utils/ads";
+import { translate } from "../../translations/index";
 
 const Home: React.FC = () => {
   const navigation = useNavigation();
@@ -61,20 +62,22 @@ const Home: React.FC = () => {
             fontSize="20px"
             fontFamily="Raleway-Regular"
           >
-            <Feather name="cloud-rain" size={25} /> Veja a previsão do tempo
+            <Feather name="cloud-rain" size={25} />{" "}
+            {translate("home.mainTitle")}
           </Title>
           <FormContainer>
             <InputContainer>
-              <Label>Nome da cidade</Label>
+              <Label>{translate("home.inputLabel")}</Label>
               <Input
-                placeholder="Digite sua cidade"
-                placeholderTextColor="#444"
+                placeholder={translate("home.placeholders.inputCity")}
+                placeholderTextColor="#666"
                 value={city}
                 onChangeText={setCity}
               />
               <Button onPress={handleForecastNavigate}>
                 <ButtonText>
-                  <Feather name="search" size={20} /> Pesquisar
+                  <Feather name="search" size={20} />{" "}
+                  {translate("home.buttons.searchButton")}
                 </ButtonText>
               </Button>
             </InputContainer>

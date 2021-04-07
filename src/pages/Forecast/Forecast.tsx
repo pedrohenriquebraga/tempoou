@@ -40,6 +40,8 @@ import {
   NextDaysForecastScroll,
 } from "./styles";
 import { format, parseISO } from "date-fns/esm";
+import { translate } from "../../translations";
+import I18n from "i18n-js";
 
 const Forecast: React.FC = () => {
   const [showedAd, setShowedAd] = useState(false);
@@ -65,7 +67,7 @@ const Forecast: React.FC = () => {
   useEffect(() => {
     api
       .get(
-        `/forecast.json?key=${API_KEY}&q=${city}&days=3&aqi=yes&alerts=no&lang=pt`
+        `/forecast.json?key=${API_KEY}&q=${city}&days=3&aqi=yes&alerts=no&lang=${I18n.currentLocale()}`
       )
       .then((response) => {
         interstitial.load();
@@ -73,8 +75,8 @@ const Forecast: React.FC = () => {
       })
       .catch((err) => {
         Alert.alert(
-          "Cidade não encontrada!",
-          `A cidade "${city}" não foi encontrada! Reveja o nome ou tenta novamente em alguns segundos!`
+          translate("forecast.alerts.cityNotFound.title"),
+          translate("forecast.alerts.cityNotFound.content", { city })
         );
         return navigation.navigate("Home");
       });
@@ -82,7 +84,10 @@ const Forecast: React.FC = () => {
 
   if (!forecast) {
     return (
-      <Loading message={`Previsão do Tempo de ${city}...`} showInterstitialAd />
+      <Loading
+        message={translate("loadings.getCityForecast", { city })}
+        showInterstitialAd
+      />
     );
   }
 
@@ -94,7 +99,9 @@ const Forecast: React.FC = () => {
         fontFamily="Raleway-Regular"
         align="right"
       >
-        atualizado às {format(parseISO(forecast.current.last_updated), "HH:mm")}
+        {translate("forecast.updatedAt", {
+          time: format(parseISO(forecast.current.last_updated), "HH:mm"),
+        })}
       </Title>
       <CurrentlyForecastContainer>
         <Title fontSize="20px" color="white" align="center" margin="20px 0">
@@ -114,7 +121,9 @@ const Forecast: React.FC = () => {
             {Math.round(forecast.current.temp_c)}°C
           </ForecastTemperature>
           <ForecastFeelsLikeTemperature>
-            Sensação térmica: {"\n"} {Math.round(forecast.current.feelslike_c)}
+            {translate("forecast.feelsLike", {
+              temp: Math.round(forecast.current.feelslike_c),
+            })}
             °C
           </ForecastFeelsLikeTemperature>
         </CurrentlyForecastRightContent>
@@ -131,7 +140,7 @@ const Forecast: React.FC = () => {
       <ExtraInfos>
         <View>
           <InfoCardTitle>
-            <Feather name="wind" size={18} /> Vento
+            <Feather name="wind" size={18} /> {translate("forecast.wind")}
           </InfoCardTitle>
           <InfoCardValue>
             {Math.round(forecast.current.wind_kph)} Km/h
@@ -139,13 +148,14 @@ const Forecast: React.FC = () => {
         </View>
         <View>
           <InfoCardTitle>
-            <Ionicons name="water-outline" size={16} color="#5773ff" /> Umidade
+            <Ionicons name="water-outline" size={16} color="#5773ff" />{" "}
+            {translate("forecast.humidity")}
           </InfoCardTitle>
           <InfoCardValue>{forecast.current.humidity}%</InfoCardValue>
         </View>
         <View>
           <InfoCardTitle>
-            <Feather name="eye" size={18} /> Visibilidade
+            <Feather name="eye" size={18} /> {translate("forecast.visibility")}
           </InfoCardTitle>
           <InfoCardValue>
             {Math.floor(forecast.current.vis_km)} km
@@ -159,7 +169,7 @@ const Forecast: React.FC = () => {
           fontFamily="Raleway-Regular"
           margin="0px 0px 10px 0px"
         >
-          Previsão hora a hora
+          {translate("forecast.forecastHourByHour")}
         </Title>
         <ScrollView horizontal>
           {forecast.forecast.forecastday.map((forecast) => {
@@ -174,7 +184,8 @@ const Forecast: React.FC = () => {
       <ExtraInfos>
         <View>
           <InfoCardTitle>
-            <Feather name="sunrise" size={18} color="#fcca27" /> Nascer do Sol
+            <Feather name="sunrise" size={18} color="#fcca27" />{" "}
+            {translate("forecast.sunrise")}
           </InfoCardTitle>
           <InfoCardValue>
             {transformTime(forecast.forecast.forecastday[0].astro.sunrise)}
@@ -182,7 +193,8 @@ const Forecast: React.FC = () => {
         </View>
         <View>
           <InfoCardTitle>
-            <Feather name="sunset" size={18} color="#ffc400" /> Pôr do Sol
+            <Feather name="sunset" size={18} color="#ffc400" />{" "}
+            {translate("forecast.sunset")}
           </InfoCardTitle>
           <InfoCardValue>
             {transformTime(forecast.forecast.forecastday[0].astro.sunset)}
@@ -206,13 +218,13 @@ const Forecast: React.FC = () => {
           fontFamily="Raleway-Regular"
           margin="0px 0px 10px 0px"
         >
-          Detalhes de hoje
+          {translate("forecast.details")}
         </Title>
         <View>
           <DetailBar>
             <DetailTitle>
-              <Feather name="thermometer" size={20} color="#f00" /> Temperatura
-              Min/Max
+              <Feather name="thermometer" size={20} color="#f00" />{" "}
+              {translate("forecast.minMaxTemp")}
             </DetailTitle>
             <DetailValue>
               {Math.round(forecast.forecast.forecastday[0].day.mintemp_c)}°C/
@@ -222,7 +234,7 @@ const Forecast: React.FC = () => {
           <DetailBar>
             <DetailTitle>
               <Ionicons name="water-outline" size={20} color="#5773ff" />{" "}
-              Precipitação
+              {translate("forecast.precipitation")}
             </DetailTitle>
             <DetailValue>
               {forecast.forecast.forecastday[0].day.totalprecip_mm.toFixed(2)}{" "}
@@ -231,19 +243,21 @@ const Forecast: React.FC = () => {
           </DetailBar>
           <DetailBar>
             <DetailTitle>
-              <Fontisto name="day-sunny" size={20} color="#ffc400" /> Índice UV
+              <Fontisto name="day-sunny" size={20} color="#ffc400" />{" "}
+              {translate("forecast.UV")}
             </DetailTitle>
             <DetailValue>{forecast.current.uv}</DetailValue>
           </DetailBar>
           <DetailBar>
             <DetailTitle>
-              <Fontisto name="wind" size={20} /> Rajada
+              <Fontisto name="wind" size={20} /> {translate("forecast.gust")}
             </DetailTitle>
             <DetailValue>{forecast.current.gust_kph} Km/h</DetailValue>
           </DetailBar>
           <DetailBar>
             <DetailTitle>
-              <Fontisto name="rains" size={20} /> Chance de chuva
+              <Fontisto name="rains" size={20} />{" "}
+              {translate("forecast.chanceRain")}
             </DetailTitle>
             <DetailValue>
               {forecast.forecast.forecastday[0].day.daily_chance_of_rain}%
@@ -251,7 +265,8 @@ const Forecast: React.FC = () => {
           </DetailBar>
           <DetailBar>
             <DetailTitle>
-              <Feather name="cloud-snow" size={20} /> Chance de neve
+              <Feather name="cloud-snow" size={20} />{" "}
+              {translate("forecast.chanceSnow")}
             </DetailTitle>
             <DetailValue>
               {forecast.forecast.forecastday[0].day.daily_chance_of_snow}%
@@ -266,7 +281,7 @@ const Forecast: React.FC = () => {
           fontFamily="Raleway-Regular"
           margin="0px 0px 10px 0px"
         >
-          Qualidade do ar
+          {translate("forecast.airQuality")}
         </Title>
         <DetailBar>
           <DetailTitle>CO</DetailTitle>
@@ -321,7 +336,9 @@ const Forecast: React.FC = () => {
           align="center"
           margin="20px 0"
         >
-          Próximos 2 dias
+          {translate("forecast.nextDays", {
+            amount: forecast.forecast.forecastday.slice(1).length,
+          })}
         </Title>
         <NextDaysForecastScroll>
           {forecast.forecast.forecastday.slice(1).map((fore, index) => (
