@@ -2,6 +2,35 @@
   "loadings": {
     "getCityForecast": "Previsão do tempo de {{city}}..."
   },
+  "components": {
+    "header": {
+      "weatherForecast": "Previsão do tempo"
+    },
+    "onBoarding": {
+      "buttons": {
+        "skip": "Pular",
+        "next": "Próximo"
+      },
+      "screens": {
+        "first": {
+          "title": "Bem-vindo ao Tempoou!",
+          "content": "Aqui você recebe informações sobre a previsão do tempo de qualquer cidade do Brasil e do mundo!"
+        },
+        "second": {
+          "title": "Saiba a previsão certa!",
+          "content": "Com o Tempoou você sempre pode confiar na previsão sempre atualizada!"
+        },
+        "third": {
+          "title": "Aproveite todos os recursos de graça!",
+          "content": "Aproveite todos os recursos que o Tempoou pode te oferecer totalmente de graça!"
+        }
+      }
+    },
+    "noNetwork": {
+      "title": "Sem internet!",
+      "content": "Para usar nosso serviço é preciso de uma conexão a internet!"
+    }
+  },
   "home": {
     "mainTitle": "Veja a previsão do tempo",
     "inputLabel": "Nome da cidade",
@@ -10,6 +39,12 @@
     },
     "buttons": {
       "searchButton": "Pesquisar"
+    },
+    "alerts": {
+      "tellACity": {
+        "title": "Informe uma cidade!",
+        "content": "Preciso de uma cidade para que consiga obter a previsão do tempo!"
+      }
     }
   },
   "forecast": {

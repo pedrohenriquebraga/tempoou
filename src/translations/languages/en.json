@@ -2,6 +2,35 @@
   "loadings": {
     "getCityForecast": "{{city}} Weather Forecast..."
   },
+  "components": {
+    "header": {
+      "weatherForecast": "Weather Forecast"
+    },
+    "onBoarding": {
+      "buttons": {
+        "skip": "Skip",
+        "next": "Next"
+      },
+      "screens": {
+        "first": {
+          "title": "Welcome to Tempoou!",
+          "content": "Here you get informations about the weather forecast for any city of {{country}} and world!"
+        },
+        "second": {
+          "title": "Know the right weather forecast!",
+          "content": "With Tempoou you can always rely on the always updated forecast!"
+        },
+        "third": {
+          "title": "Enjoy all resources for free!",
+          "content": "Enjoy all resources that the Tempoou you can offer totally free!"
+        }
+      }
+    },
+    "noNetwork": {
+      "title": "Internet is down!",
+      "content": "For use our services, is need a internet connection!"
+    }
+  },
   "home": {
     "mainTitle": "See the weather forecast",
     "inputLabel": "City name",
@@ -10,6 +39,12 @@
     },
     "buttons": {
       "searchButton": "Search"
+    },
+    "alerts": {
+      "tellACity": {
+        "title": "Tell a city!",
+        "content": "I need a city for get a weather forecast!"
+      }
     }
   },
   "forecast": {

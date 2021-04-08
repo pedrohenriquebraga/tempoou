@@ -2,6 +2,35 @@
   "loadings": {
     "getCityForecast": "Pronóstico del tiempo de {{city}}..."
   },
+  "components": {
+    "header": {
+      "weatherForecast": "Pronóstico del Tiempo"
+    },
+    "onBoarding": {
+      "buttons": {
+        "skip": "Salto",
+        "next": "Siguiente"
+      },
+      "screens": {
+        "first": {
+          "title": "Bienvinido a Tempoou!",
+          "content": "Aquí recibe informacíon sobre el pronóstico del tiempo de cualquier ciudad de {{country}} y del mundo!"
+        },
+        "second": {
+          "title": "Conozca el pronóstico correcto!",
+          "content": "Com el Tempoou, siempre puede confiar en el pronóstico siempre actualizado!"
+        },
+        "third": {
+          "title": "Disfruta de todos los recursos gratis!",
+          "content": "Aprovecha todos los recursos que Tempoou te puede ofrecer totalmente gratis!"
+        }
+      }
+    },
+    "noNetwork": {
+      "title": "Sin internet",
+      "content": "Para utilizar nuestro servicio necesita una conexión a internet!"
+    }
+  },
   "home": {
     "mainTitle": "Ver el pronóstico del tiempo",
     "inputLabel": "Nombre de la ciudad",
@@ -10,6 +39,12 @@
     },
     "buttons": {
       "searchButton": "Buscar"
+    },
+    "alerts": {
+      "tellACity": {
+        "title": "Informe una ciudad!",
+        "content": "Necesito una ciudad para que pueda obtener el pronóstico del tiempo!"
+      }
     }
   },
   "forecast": {
@@ -32,8 +67,8 @@
     "nextDays": "Próximos {{amount}} días",
     "alerts": {
       "cityNotFound": {
-        "title": "Cidade não encontrada",
-        "content": "A cidade '{{city}}' não foi encontrada! Reveja o nome ou tenta novamente em alguns segundos!"
+        "title": "Ciudad no encontrada",
+        "content": "No se encontró la ciudad {{city}}! Revisa el nombre o vuelve a intentarlo en unos segundos."
       }
     }
   }

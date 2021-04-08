@@ -35,8 +35,8 @@ const Home: React.FC = () => {
   async function handleForecastNavigate() {
     if (!city)
       return Alert.alert(
-        "Informe uma cidade!",
-        "Preciso de uma cidade para que consiga obter a previsão do tempo!"
+        translate("home.alerts.tellACity.title"),
+        translate("home.alerts.tellACity.content")
       );
 
     await storage.setItem("@city", city);

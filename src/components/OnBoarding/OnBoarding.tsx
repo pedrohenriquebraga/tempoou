@@ -1,12 +1,12 @@
 import React from "react";
-import { StatusBar } from "react-native";
 import Boarding, { Page } from "react-native-onboarding-swiper";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import badWeather from "../../animations/onBoarding/bad-weather.json";
 import sunCloud from "../../animations/onBoarding/sun-cloud.json";
 import umbrella from "../../animations/onBoarding/umbrella.json";
+import { translate } from "../../translations";
 import { Title } from "../Custom/Custom";
-import { Animation, DoneButton } from "./styles";
+import { Animation } from "./styles";
+import * as RNLocalize from "react-native-localize";
 
 interface IBoardingProps {
   done: () => any;
@@ -19,11 +19,12 @@ const OnBoarding = ({ done, skip }: IBoardingProps) => {
       image: <Animation source={sunCloud} autoPlay loop />,
       title: (
         <Title fontSize="23px" fontFamily="Raleway-SemiBold" align="center">
-          Bem-vindo ao Tempoou!
+          {translate("components.onBoarding.screens.first.title")}
         </Title>
       ),
-      subtitle:
-        "Aqui você recebe informações sobre a previsão do tempo de qualquer cidade do Brasil e do mundo!",
+      subtitle: translate("components.onBoarding.screens.first.content", {
+        country: RNLocalize.getCountry(),
+      }),
       backgroundColor: "#efefef",
     },
     {
@@ -35,22 +36,20 @@ const OnBoarding = ({ done, skip }: IBoardingProps) => {
           fontFamily="Raleway-SemiBold"
           align="center"
         >
-          Saiba a previsão certa!
+          {translate("components.onBoarding.screens.second.title")}
         </Title>
       ),
-      subtitle:
-        "Com o Tempoou você pode sempre pode confiar na previsão sempre atualizada!",
+      subtitle: translate("components.onBoarding.screens.second.content"),
       backgroundColor: "#1b7eff",
     },
     {
       image: <Animation source={umbrella} autoPlay loop />,
       title: (
         <Title fontSize="23px" fontFamily="Raleway-SemiBold" align="center">
-          Aproveite todos os recursos de graça!
+          {translate("components.onBoarding.screens.third.title")}
         </Title>
       ),
-      subtitle:
-        "Aproveite todos os recursos que o Tempoou pode te oferecer totalmente de graça!",
+      subtitle: translate("components.onBoarding.screens.third.content"),
       backgroundColor: "#ffc115",
     },
   ];
@@ -64,8 +63,8 @@ const OnBoarding = ({ done, skip }: IBoardingProps) => {
         fontFamily: "Raleway-Regular",
         fontSize: 18,
       }}
-      skipLabel="Pular"
-      nextLabel="Próximo"
+      skipLabel={translate("components.onBoarding.buttons.skip")}
+      nextLabel={translate("components.onBoarding.buttons.next")}
       onDone={done}
       onSkip={skip}
       bottomBarHighlight

@@ -6,6 +6,7 @@ import Header from "./components/Header/Header";
 import NoNetwork from "./components/NoNetwork/NoNetwork";
 import Forecast from "./pages/Forecast/Forecast";
 import Home from "./pages/Home/Home";
+import { translate } from "./translations";
 
 const { Screen, Navigator } = createStackNavigator();
 
@@ -34,7 +35,9 @@ const AppRoutes: React.FC = () => {
           name="Forecast"
           component={Forecast}
           options={{
-            header: () => <Header title="Previsão do Tempo" />,
+            header: () => (
+              <Header title={translate("components.header.weatherForecast")} />
+            ),
             headerShown: true,
           }}
         />
